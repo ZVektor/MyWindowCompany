@@ -11,12 +11,10 @@ namespace MyWC.Api.Controllers
     {
         private readonly IPersonService _personService;
 
-
         public PeopleController(IPersonService personService)
         {
             _personService = personService;
         }
-
 
         //GET api/People?sortState=CityAsc&searchName=..&searchCity=..
         [HttpGet]
@@ -46,7 +44,6 @@ namespace MyWC.Api.Controllers
 
 
         // PUT: api/PostPerson
-        // Метод Put принимает на себя 2 параметра!
         [HttpPut("{id}")]
         public async Task<IActionResult> PutPerson(int id, Person updatePerson)
         {
