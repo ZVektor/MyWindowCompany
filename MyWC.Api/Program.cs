@@ -33,7 +33,7 @@ namespace MyWC.Api
             );
 
             builder.Services.AddScoped<IPersonService, PersonService>();
-            //builder.Services.AddScoped<IPhoneService, PhoneService>();
+            builder.Services.AddScoped<IPhoneService, PhoneService>();
 
 
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
