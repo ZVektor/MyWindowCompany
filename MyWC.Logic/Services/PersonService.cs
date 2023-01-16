@@ -27,9 +27,22 @@ namespace MyWC.Logic.Services
 
         }
 
-        public async Task<IEnumerable<Person>> GetPersons(SortState sortOrder)
+        public async Task<IEnumerable<Person>> GetPersons(SortState sortOrder, string searchName,string searchLName, string searchCity)
         {
             IQueryable<Person>? personData = _db.People;
+
+            if (!String.IsNullOrEmpty(searchName))
+            {
+                personData = personData.Where(s => s.FirstName.Contains(searchName));
+            }
+            if (!String.IsNullOrEmpty(searchLName))
+            {
+                personData = personData.Where(s => s.LastName.Contains(searchLName));
+            }
+            if (!String.IsNullOrEmpty(searchCity))
+            {
+                personData = personData.Where(s => s.City.Contains(searchCity));
+            }
 
             personData = sortOrder switch
             {
@@ -43,7 +56,7 @@ namespace MyWC.Logic.Services
                 _ => personData.OrderBy(s => s.Id),
             };
 
-            return await personData.AsNoTracking().ToListAsync();
+            return await personData.AsNoTracking().Include(c => c.Phones).ToListAsync();
         }
 
         //public PersonModel GetPerson(int id)

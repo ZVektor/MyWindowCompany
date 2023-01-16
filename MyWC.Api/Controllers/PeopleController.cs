@@ -26,9 +26,10 @@ namespace MyWC.Api.Controllers
         //}
         [HttpGet]
         //[HttpGet("sortState:SortState")]
-        public async Task<IActionResult> GetPersons(SortState sortState)
+        //TODO переделать фильтр, на в какой колонке искать и две переменные searchString и searchInt
+        public async Task<IActionResult> GetPersons(SortState sortState, string? searchName, string? searchLName, string? searchCity)
         {
-            var data = await _personService.GetPersons(sortState);
+            var data = await _personService.GetPersons(sortState, searchName, searchLName, searchCity);
             return Ok(data);
         }
 
