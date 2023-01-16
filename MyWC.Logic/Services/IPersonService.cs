@@ -1,4 +1,5 @@
-﻿using MyWC.DataModels.Models;
+﻿using Microsoft.EntityFrameworkCore;
+using MyWC.DataModels.Models;
 
 namespace MyWC.Logic.Services
 {
@@ -11,10 +12,11 @@ namespace MyWC.Logic.Services
 
         public Task<Person> GetPerson(int id);
 
-        //int PostPerson(Person newPersonModel);
+        public Task<int> PostPerson(Person newPersonModel);
 
-        //bool UpdatePerson(int id, Person updatePersonModel);
+        public Task<bool> UpdatePerson(int id, Person updatePersonModel);
 
-        //bool DeletePerson(int id);
+        public Task<bool> DeletePerson(int id);
+
     }
 }

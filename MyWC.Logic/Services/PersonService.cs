@@ -5,6 +5,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
+using MyWC.Logic.Services;
 
 namespace MyWC.Logic.Services
 {
@@ -13,12 +15,12 @@ namespace MyWC.Logic.Services
         private readonly MyWcdbContext _db;
         public PersonService(MyWcdbContext db) => _db = db;
 
+        //TODO Проверить! Возможно она больше не нужна
         public async Task<IEnumerable<Person>> GetPersons()
         {
             //return await _db.People.ToListAsync();
             return await _db.People.Include(c => c.Phones).ToListAsync();
         }
-
 
         public async Task<Person> GetPerson(int id)
         {
@@ -27,7 +29,13 @@ namespace MyWC.Logic.Services
 
         }
 
-        public async Task<IEnumerable<Person>> GetPersons(SortState sortOrder, string searchName,string searchLName, string searchCity)
+        /// <summary>
+        /// Метод получения данных, можно с сортировкой
+        /// </summary>
+        /// <param name="sortOrder">Модель сортировки прописана в классе</param>
+        /// <param name="searchName">Фильтр по имени</param>
+        /// <returns>Describe return value.</returns>
+        public async Task<IEnumerable<Person>> GetPersons(SortState sortOrder, string searchName, string searchLName, string searchCity)
         {
             IQueryable<Person>? personData = _db.People;
 
@@ -46,7 +54,7 @@ namespace MyWC.Logic.Services
 
             personData = sortOrder switch
             {
-                SortState.IdDesk=> personData.OrderByDescending(s => s.Id),
+                SortState.IdDesk => personData.OrderByDescending(s => s.Id),
                 SortState.FistNameAsc => personData.OrderBy(s => s.FirstName),
                 SortState.FistNameDesc => personData.OrderByDescending(s => s.FirstName),
                 SortState.LastNameAsc => personData.OrderBy(s => s.LastName),
@@ -59,80 +67,56 @@ namespace MyWC.Logic.Services
             return await personData.AsNoTracking().Include(c => c.Phones).ToListAsync();
         }
 
-        //public PersonModel GetPerson(int id)
-        //{
-        //    //Это какойто треш, надо что то делать с этим
-        //    var personFind = _db.Persons.FirstOrDefault(x => x.Id == id);
-        //    PersonModel _personModel = new PersonModel();
-        //    if (personFind != null)
-        //    {
-        //        _personModel.Id = personFind.Id;
-        //        _personModel.FirstName = personFind.FirstName;
-        //        _personModel.LastName = personFind.LastName;
-        //        _personModel.City = personFind.City;
-        //        return _personModel;
-        //    }
-        //    else
-        //        return null;
+        public async Task<int> PostPerson(Person newPersonModel)
+        {
 
+            _db.Add(newPersonModel);
+            await _db.SaveChangesAsync();
+            //return RedirectToAction(nameof(Index));
+            var personId = newPersonModel.Id;
 
-        //}
+            return personId;
+        }
 
-        //public int PostPerson(PersonModel newPersonModel)
-        //{
-        //    Person _person = new Person();
-        //    _person.FirstName = newPersonModel.FirstName;
-        //    _person.LastName = newPersonModel.LastName;
-        //    _person.City = newPersonModel.City;
-        //    _db.Add(_person);
-        //    _db.SaveChanges();
+        public async Task<bool> UpdatePerson(int id, Person updatePersonModel)
+        {
+            bool flag = false;
+            _db.Entry(updatePersonModel).State = EntityState.Modified;
 
-        //    var personId = _person.Id;
+            try
+            {
+                await _db.SaveChangesAsync();
+                flag = true;
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                    throw;
+            }
+            return flag;
+        }
 
-        //    return personId;
-        //}
-
-        //public bool UpdatePerson(int id, PersonModel updatePersonModel)
-        //{
-        //    bool flag = false;
-        //    var _personFind = _db.Persons.FirstOrDefault(x => x.Id == id);
-        //    if (_personFind != null)
-        //    {
-        //        _personFind.FirstName = updatePersonModel.FirstName;
-        //        _personFind.LastName = updatePersonModel.LastName;
-        //        _personFind.City = updatePersonModel.City;
-        //        try
-        //        {
-        //            _db.Persons.Update(_personFind);
-        //            _db.SaveChanges();
-        //            flag = true;
-        //        }
-        //        catch (Exception)
-        //        {
-        //            throw;
-        //        }
-        //    }
-        //    return flag;
-        //}
-
-        //public bool DeletePerson(int id)
-        //{
-        //    bool flag = false;
-        //    var _personFind = _db.Persons.FirstOrDefault(x => x.Id == id);
-        //    if (_personFind != null)
-        //    {
-        //        try
-        //        {
-        //            _db.Persons.Remove(_personFind);
-        //            _db.SaveChanges();
-        //            flag = true;
-        //        }
-        //        catch (Exception)
-        //        {
-        //            throw;
-        //        }
-        //    }
-        //    return flag;
-        //}
+        public async Task<bool> DeletePerson(int id)
+        {
+            bool flag = false;
+            var person = await _db.People.FindAsync(id);
+            if (person != null)
+            {
+                try
+                {
+                    _db.People.Remove(person);
+                    await _db.SaveChangesAsync();
+                    flag = true;
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    throw;
+                }
+            }
+            return flag;
+        }
+        private bool PersonExists(int id)
+        {
+            return _db.People.Any(e => e.Id == id);
+        }
     }
 }
