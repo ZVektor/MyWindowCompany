@@ -8,13 +8,13 @@ namespace MyWC.Logic.Services
         //IEnumerable<Person> GetPersons();
         public Task<IEnumerable<Person>> GetPersons();
 
-        public Task<IEnumerable<Person>> GetPersons(SortState sortOrder, string searchName, string searchLName, string searchCity);
+        public Task<IEnumerable<Person>> GetPersons(PersonSortState sortOrder, string searchName, string searchLName, string searchCity);
 
         public Task<Person> GetPerson(int id);
 
-        public Task<int> PostPerson(Person newPersonModel);
+        public Task<int> PostPerson(Person newPerson);
 
-        public Task<bool> UpdatePerson(int id, Person updatePersonModel);
+        public Task<bool> UpdatePerson(int id, Person updatePerson);
 
         public Task<bool> DeletePerson(int id);
 

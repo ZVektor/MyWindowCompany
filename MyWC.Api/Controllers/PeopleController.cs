@@ -10,7 +10,6 @@ namespace MyWC.Api.Controllers
     public class PeopleController : ControllerBase
     {
         private readonly IPersonService _personService;
-
         public PeopleController(IPersonService personService)
         {
             _personService = personService;
@@ -19,7 +18,7 @@ namespace MyWC.Api.Controllers
         //GET api/People?sortState=CityAsc&searchName=..&searchCity=..
         [HttpGet]
         //TODO переделать фильтр, на в какой колонке искать и две переменные searchString и searchInt
-        public async Task<IActionResult> GetPersons(SortState sortState, string? searchName, string? searchLName, string? searchCity)
+        public async Task<IActionResult> GetPersons(PersonSortState sortState, string? searchName, string? searchLName, string? searchCity)
         {
             var data = await _personService.GetPersons(sortState, searchName, searchLName, searchCity);
             return Ok(data);
@@ -33,8 +32,7 @@ namespace MyWC.Api.Controllers
             return Ok(data);
         }
 
-
-        // POST: api/PostPerson
+        // POST: api/Person
         [HttpPost]
         public async Task<IActionResult> PostPerson(Person newPersonModel)
         {
@@ -42,8 +40,7 @@ namespace MyWC.Api.Controllers
             return Ok(data);
         }
 
-
-        // PUT: api/PostPerson
+        // PUT: api/Person
         [HttpPut("{id}")]
         public async Task<IActionResult> PutPerson(int id, Person updatePerson)
         {

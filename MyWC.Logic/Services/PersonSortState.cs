@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MyWC.Logic.Services
 {
-    public enum SortState
+    public enum PersonSortState
     {
         IdAsk,              // по Id по возрастанию
         IdDesk,             // по Id по убыванию

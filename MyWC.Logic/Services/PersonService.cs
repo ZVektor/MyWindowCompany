@@ -35,7 +35,7 @@ namespace MyWC.Logic.Services
         /// <param name="sortOrder">Модель сортировки прописана в классе</param>
         /// <param name="searchName">Фильтр по имени</param>
         /// <returns>Describe return value.</returns>
-        public async Task<IEnumerable<Person>> GetPersons(SortState sortOrder, string searchName, string searchLName, string searchCity)
+        public async Task<IEnumerable<Person>> GetPersons(PersonSortState sortOrder, string searchName, string searchLName, string searchCity)
         {
             IQueryable<Person>? personData = _db.People;
 
@@ -54,34 +54,34 @@ namespace MyWC.Logic.Services
 
             personData = sortOrder switch
             {
-                SortState.IdDesk => personData.OrderByDescending(s => s.Id),
-                SortState.FistNameAsc => personData.OrderBy(s => s.FirstName),
-                SortState.FistNameDesc => personData.OrderByDescending(s => s.FirstName),
-                SortState.LastNameAsc => personData.OrderBy(s => s.LastName),
-                SortState.LastNameDesc => personData.OrderByDescending(s => s.LastName),
-                SortState.CityAsc => personData.OrderBy(s => s.City),
-                SortState.CityDesc => personData.OrderByDescending(s => s.City),
+                PersonSortState.IdDesk => personData.OrderByDescending(s => s.Id),
+                PersonSortState.FistNameAsc => personData.OrderBy(s => s.FirstName),
+                PersonSortState.FistNameDesc => personData.OrderByDescending(s => s.FirstName),
+                PersonSortState.LastNameAsc => personData.OrderBy(s => s.LastName),
+                PersonSortState.LastNameDesc => personData.OrderByDescending(s => s.LastName),
+                PersonSortState.CityAsc => personData.OrderBy(s => s.City),
+                PersonSortState.CityDesc => personData.OrderByDescending(s => s.City),
                 _ => personData.OrderBy(s => s.Id),
             };
 
             return await personData.AsNoTracking().Include(c => c.Phones).ToListAsync();
         }
 
-        public async Task<int> PostPerson(Person newPersonModel)
+        public async Task<int> PostPerson(Person newPerson)
         {
 
-            _db.Add(newPersonModel);
+            _db.Add(newPerson);
             await _db.SaveChangesAsync();
             //return RedirectToAction(nameof(Index));
-            var personId = newPersonModel.Id;
+            var personId = newPerson.Id;
 
             return personId;
         }
 
-        public async Task<bool> UpdatePerson(int id, Person updatePersonModel)
+        public async Task<bool> UpdatePerson(int id, Person updatePerson)
         {
             bool flag = false;
-            _db.Entry(updatePersonModel).State = EntityState.Modified;
+            _db.Entry(updatePerson).State = EntityState.Modified;
 
             try
             {
