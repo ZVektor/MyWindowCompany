@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
-using MyWC.WebBlazer.Data;
+using MyWC.WebBlazer.Services;
 
 namespace MyWC.WebBlazer
 {
@@ -13,7 +13,12 @@ namespace MyWC.WebBlazer
             // Add services to the container.
             builder.Services.AddRazorPages();
             builder.Services.AddServerSideBlazor();
-            builder.Services.AddSingleton<WeatherForecastService>();
+
+            builder.Services.AddHttpClient<IFrontEndService, FrontEndService>
+                (httpClient =>
+                {
+                    httpClient.BaseAddress = new Uri("http://localhost:5075");
+                });
 
             var app = builder.Build();
 

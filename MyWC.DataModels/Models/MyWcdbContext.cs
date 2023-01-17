@@ -46,8 +46,8 @@ public partial class MyWcdbContext : DbContext
                 new Person { Id = 9, FirstName = "Ксения", LastName = "Ловачева", City = "Новокузнецк" },
                 new Person { Id = 10, FirstName = "Ольга", LastName = "Реснина", City = "Прокопьевск" },
                 new Person { Id = 11, FirstName = "Вячеслав", LastName = "Степной", City = "Иркутск" }
-                );
             //-----------End------------------------------------------------
+                );
         });
 
         modelBuilder.Entity<Phone>(entity =>
@@ -75,8 +75,9 @@ public partial class MyWcdbContext : DbContext
                 new Phone { Id = 10, PhoneNumber = "89231226567", PeopleId = 10 },
                 new Phone { Id = 11, PhoneNumber = "89832171511", PeopleId = 11 },
                 new Phone { Id = 12, PhoneNumber = "89832171511", PeopleId = 1 }
-                );
             //-----------End------------------------------------------------
+                );
+
         });
 
         OnModelCreatingPartial(modelBuilder);

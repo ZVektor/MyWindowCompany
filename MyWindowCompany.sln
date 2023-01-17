@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyWC.DataModels", "MyWC.Dat
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyWC.Api", "MyWC.Api\MyWC.Api.csproj", "{D32C12D0-3106-495B-B0FB-6F41C51DB13A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyWC.WebBlazer", "MyWC.WebBlazer\MyWC.WebBlazer.csproj", "{6EDB584C-6E2B-4EBF-A190-2BC6443BD7E8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyWC.WebBlazer", "MyWC.WebBlazer\MyWC.WebBlazer.csproj", "{6EDB584C-6E2B-4EBF-A190-2BC6443BD7E8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

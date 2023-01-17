@@ -6,4 +6,13 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Folder Include="Data\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\MyWC.DataModels\MyWC.DataModels.csproj" />
+    <ProjectReference Include="..\MyWC.Logic\MyWC.Logic.csproj" />
+  </ItemGroup>
+
 </Project>

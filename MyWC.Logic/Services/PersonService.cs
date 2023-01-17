@@ -95,10 +95,12 @@ namespace MyWC.Logic.Services
             return flag;
         }
 
+        //UNDONE Приудалении, не удаляются связанные данные. Надо понять надо ли их удалять
         public async Task<bool> DeletePerson(int id)
         {
+            
             bool flag = false;
-            var person = await _db.People.FindAsync(id);
+            var person = await _db.People.Include(c => c.Phones).FirstOrDefaultAsync(x => x.Id == id);
             if (person != null)
             {
                 try
