@@ -13,19 +13,19 @@ public partial class Person
     [Display(Name = "Имя")]
     [RegularExpression(@"^[а-яА-ЯёЁa-zA-Z]+$", ErrorMessage = "Не верный формат, допускаются только буквы")]
     //TODO Переделать строку приведения. Можно дополнить пробелы, тире, апостроф
-    [StringLength(50, MinimumLength = 3, ErrorMessage = "Длина строки должна быть от 3 до 35 символов")]
+    [StringLength(35, MinimumLength = 3, ErrorMessage = "Длина строки должна быть от 3 до 35 символов")]
     public string FirstName { get; set; } = null!;
 
     [DataType(DataType.Text)]
     [Display(Name = "Фамилия")]
     [RegularExpression(@"^[а-яА-ЯёЁa-zA-Z]+$", ErrorMessage = "Не верный формат, допускаются только буквы")]
-    [StringLength(50, ErrorMessage = "Длина строки должна быть от 3 до 35 символов")]
+    [StringLength(35, ErrorMessage = "Длина строки должна быть от 3 до 35 символов")]
     public string? LastName { get; set; }
 
     [DataType(DataType.Text)]
     [Display(Name = "Город")]
     [RegularExpression(@"^[а-яА-ЯёЁa-zA-Z]+$", ErrorMessage = "Не верный формат, допускаются только буквы")]
-    [StringLength(50, MinimumLength = 3, ErrorMessage = "Длина строки должна быть от 3 до 35 символов")]
+    [StringLength(35, MinimumLength = 3, ErrorMessage = "Длина строки должна быть от 3 до 35 символов")]
     public string? City { get; set; }
 
     public virtual ICollection<Phone> Phones { get; } = new List<Phone>();

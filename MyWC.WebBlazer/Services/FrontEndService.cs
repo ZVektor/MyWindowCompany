@@ -18,10 +18,26 @@ namespace MyWC.WebBlazer.Services
             return response;
         }
 
-        public async Task<IEnumerable<Person>> GetPersons(PersonSortState sortStatus)
+        public async Task<IEnumerable<Person>> GetPersons(PersonSortState sortState, string? searchName, string? searchLName, string? searchCity)
         {
-            //TODO Переделать всю сортировку на метод POST!!!
-            var response = await _httpClient.GetFromJsonAsync<IEnumerable<Person>>("api/People?sortState="+sortStatus.ToString());
+            //TODO Переделать весь запрос на метод POST!!!????
+            string newFilterRequest ="";
+            if (!String.IsNullOrEmpty(searchName))
+            {
+                newFilterRequest = newFilterRequest+"&searchName=" + searchName;
+            }
+            if (!String.IsNullOrEmpty(searchLName))
+            {
+                newFilterRequest = newFilterRequest+"&searchLName=" + searchLName;
+            }
+            if (!String.IsNullOrEmpty(searchCity))
+            {
+                newFilterRequest = newFilterRequest+"&searchCity=" + searchCity;
+            }
+
+
+
+            var response = await _httpClient.GetFromJsonAsync<IEnumerable<Person>>("api/People?sortState="+ sortState.ToString()+ newFilterRequest);
             return response;
         }
 

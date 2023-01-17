@@ -2,6 +2,8 @@
 @using MyWC.DataModels.Models;
 @using MyWC.WebBlazer.Services;
 @using MyWC.Logic.Services
+@using Microsoft.AspNetCore.Components.Forms
+
 @inject IFrontEndService frontEndService;
 
 <style>
@@ -96,50 +98,72 @@ else
             }
             else
             {
-                if (personList.Any())
-                {
-                    <table class="table table-striped table-hover table-sm table-bordered bg-light">
-                        <thead>
-                            <tr>
-                                <th scope="col">#</th>
-                                <th scope="col">
-                                    <div class="container">
-                                        <div class="row">
-                                            <div class="col text-start">
-                                                <span role="button" class="fa-solid @(SetSortIcon("FistName"))" @onclick="@(() => SortTable("FistName"))"></span>
-                                                Имя
-                                            </div>
-                                            <div class="col text-end"><i class="fa-solid fa-filter"></i></div>
+                <table class="table table-striped table-hover table-sm table-bordered bg-light">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">
+                                <div class="container">
+                                    <div class="row">
+                                        <div class="col text-start">
+                                            <span role="button" class="btn fa-solid @(SetSortIcon("FistName"))" @onclick="@(() => SortTable("FistName"))"></span>
+                                            Имя
+                                        </div>
+                                        <div class="col text-end"><i class="fa-solid fa-filter"></i></div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="input-group mb-3">
+                                            <span class="input-group-text" id="basic-addon1"><i class="fa-solid fa-filter"></i></span>
+                                            <input class="form-control" @bind=inputNameValue @oninput="NameFilterTable" />
+                                            <span role="button" class="input-group-text" @onclick="NameFilterTableX"><i class="fa-solid fa-xmark"></i></span>
                                         </div>
                                     </div>
-                                </th>
-                                <th scope="col">
-                                    <div class="container">
-                                        <div class="row">
-                                            <div class="col text-start">
-                                                <span role="button" class="fa-solid @(SetSortIcon("LastName"))" @onclick="@(() => SortTable("LastName"))"></span>
-                                                Фамилия
-                                            </div>
-                                            <div class="col text-end"><i class="fa-solid fa-filter"></i></div>
+                                </div>
+                            </th>
+                            <th scope="col">
+                                <div class="container">
+                                    <div class="row">
+                                        <div class="col text-start">
+                                            <span role="button" class="btn fa-solid @(SetSortIcon("LastName"))" @onclick="@(() => SortTable("LastName"))"></span>
+                                            Фамилия
+                                        </div>
+                                        <div class="col text-end"><i class="fa-solid fa-filter"></i></div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="input-group mb-3">
+                                            <span class="input-group-text" id="basic-addon1"><i class="fa-solid fa-filter"></i></span>
+                                            <input class="form-control" @bind=inputLNameValue @oninput="LNameFilterTable" />
+                                            <span role="button" class="input-group-text" @onclick="LNameFilterTableX"><i class="fa-solid fa-xmark"></i></span>
                                         </div>
                                     </div>
-                                </th>
-                                <th scope="col">
-                                    <div class="container">
-                                        <div class="row">
-                                            <div class="col text-start">
-                                                <span role="button" class="fa-solid @(SetSortIcon("City"))" @onclick="@(() => SortTable("City"))"></span>
-                                                Город
-                                            </div>
-                                            <div class="col text-end"><i class="fa-solid fa-filter"></i></div>
+                                </div>
+                            </th>
+                            <th scope="col">
+                                <div class="container">
+                                    <div class="row">
+                                        <div class="col text-start">
+                                            <span role="button" class="btn fa-solid @(SetSortIcon("City"))" @onclick="@(() => SortTable("City"))"></span>
+                                            Город
+                                        </div>
+                                        <div class="col text-end"><i class="fa-solid fa-filter"></i></div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="input-group mb-3">
+                                            <span class="input-group-text" id="basic-addon1"><i class="fa-solid fa-filter"></i></span>
+                                            <input class="form-control" @bind=inputCityValue @oninput="CityFilterTable" />
+                                            <span role="button" class="input-group-text" @onclick="CityFilterTableX"><i class="fa-solid fa-xmark"></i></span>
                                         </div>
                                     </div>
-                                </th>
-                                <th scope="col">Действия</th>
-                            </tr>
-                        </thead>
-                        <tbody>
+                                </div>
+                            </th>
+                            <th scope="col" style="width: 20%">Действия</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (personList.Any())
+                        {
                             @foreach (var item in personList)
+
                             {
                                 <tr>
                                     <th scope="row">@item.Id</th>
@@ -147,16 +171,17 @@ else
                                     <td>@item.LastName</td>
                                     <td>@item.City</td>
                                     <td>
-                                        <input type="button" class="btn btn-primary" value="Редактировать" @onclick="(() => EditButtonClick(item))" />
-                                        <input type="button" class="btn btn-danger" value="Удалить" @onclick="(() => DeleteButtonClick(item))" />
-                                        <a href="#" class="btn btn-default"><i class="fa-solid fa-file-pen"></i></a>
-                                        <a href="#" class="btn btn-default"><i class="fa-solid fa-trash"></i></a>
+                                        <i type="button" class="fa-solid fa-file-pen text-primary" @onclick="(() => EditButtonClick(item))"></i>
+                                        <i type="button" class="fa-solid fa-trash text-danger" @onclick="(() => DeleteButtonClick(item))"></i>
                                     </td>
                                 </tr>
+
+
                             }
-                        </tbody>
-                    </table>
-                }
+                        }
+                    </tbody>
+                </table>
+
             }
         </div>
     </div>
@@ -261,9 +286,14 @@ else
     public bool successPopup = false;
     public string Message = string.Empty;
 
+    private PersonSortState curentPersonSortTable {get; set;}
+
     private bool isSortedAscending = false;
     private string activeSortColumn;
 
+    private string? inputNameValue { get; set; }
+    private string inputLNameValue { get; set; }
+    private string inputCityValue { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
@@ -324,11 +354,45 @@ else
         personList = await frontEndService.GetPersons();
     }
 
+    //TODO разобраться почему один входящий и походу она вообще не нужна
     private async Task GetPersons(PersonSortState sortState)
     {
-        personList = await frontEndService.GetPersons(sortState);
+        personList = await frontEndService.GetPersons(sortState, "", "", "");
     }
 
+    //TODO в корне пересмотреть фильтрацию, много функций,возможно сделать привязку к названиям столбца
+    //TODO фильтр пропускает пробелы
+    private async Task NameFilterTable(ChangeEventArgs args)
+    {
+        inputNameValue = args.Value?.ToString() ?? string.Empty;
+        personList = await frontEndService.GetPersons(curentPersonSortTable, inputNameValue, inputLNameValue, inputCityValue);
+    }
+    private async Task LNameFilterTable(ChangeEventArgs args)
+    {
+        inputLNameValue = args.Value?.ToString() ?? string.Empty;
+        await SortTable(activeSortColumn);
+    }
+    private async Task CityFilterTable(ChangeEventArgs args)
+    {
+        inputCityValue = args.Value?.ToString() ?? string.Empty;
+        await SortTable(activeSortColumn);
+    }
+    private async Task NameFilterTableX()
+    {
+        inputNameValue = "";
+        inputNameValue = "";
+        await SortTable(activeSortColumn);
+    }
+    private async Task LNameFilterTableX()
+    {
+        inputLNameValue = "";
+        await SortTable(activeSortColumn);
+    }
+    private async Task CityFilterTableX()
+    {
+        inputCityValue = "";
+        await SortTable(activeSortColumn);
+    }
 
     private async Task SortTable(string columnName)
     {
@@ -339,10 +403,12 @@ else
                 "FistName" => sortTable = PersonSortState.FistNameAsc,
                 "LastName" => sortTable = PersonSortState.LastNameAsc,
                 "City" => sortTable = PersonSortState.CityAsc,
+                _ => sortTable = PersonSortState.IdAsk,
             };
 
-            person = new Person();
-            await GetPersons(sortTable);
+            //person = new Person();
+            curentPersonSortTable = sortTable;
+            personList = await frontEndService.GetPersons(sortTable, inputNameValue, inputLNameValue, inputCityValue);
             isSortedAscending = true;
             activeSortColumn = columnName;
         }
@@ -355,8 +421,10 @@ else
                     "FistName" => sortTable = PersonSortState.FistNameDesc,
                     "LastName" => sortTable = PersonSortState.LastNameDesc,
                     "City" => sortTable = PersonSortState.CityDesc,
+                    _ => sortTable = PersonSortState.IdDesk,
                 };
-                personList = await frontEndService.GetPersons(sortTable);
+                curentPersonSortTable = sortTable;
+                personList = await frontEndService.GetPersons(sortTable, inputNameValue, inputLNameValue, inputCityValue);
             }
             else
             {
@@ -365,8 +433,10 @@ else
                     "FistName" => sortTable = PersonSortState.FistNameAsc,
                     "LastName" => sortTable = PersonSortState.LastNameAsc,
                     "City" => sortTable = PersonSortState.CityAsc,
+                    _ => sortTable = PersonSortState.IdAsk,
                 };
-                personList = await frontEndService.GetPersons(sortTable);
+                curentPersonSortTable = sortTable;
+                personList = await frontEndService.GetPersons(sortTable, inputNameValue, inputLNameValue, inputCityValue);
             }
             isSortedAscending = !isSortedAscending;
         }
@@ -394,15 +464,15 @@ else
     {
         if (activeSortColumn != columnName)
         {
-            return "fa-sort";
+            return "fa-sort btn-outline-secondary";
         }
         if (isSortedAscending)
         {
-            return "fa-arrow-down-a-z";
+            return "fa-arrow-down-a-z btn-outline-primary";
         }
         else
         {
-            return "fa-arrow-down-z-a";
+            return "fa-arrow-down-z-a btn-outline-primary";
         }
     }
 

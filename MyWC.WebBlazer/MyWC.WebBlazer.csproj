@@ -11,6 +11,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Components" Version="7.0.2" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="7.0.2" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\MyWC.DataModels\MyWC.DataModels.csproj" />
     <ProjectReference Include="..\MyWC.Logic\MyWC.Logic.csproj" />
   </ItemGroup>

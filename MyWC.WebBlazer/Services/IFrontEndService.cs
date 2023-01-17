@@ -7,7 +7,7 @@ namespace MyWC.WebBlazer.Services
     {
         public Task<IEnumerable<Person>> GetPersons();
 
-        public Task<IEnumerable<Person>> GetPersons(PersonSortState sortStatus);
+        public Task<IEnumerable<Person>> GetPersons(PersonSortState sortState, string? searchName, string? searchLName, string? searchCity);
 
         public Task<Person> GetPerson(int id);
 
